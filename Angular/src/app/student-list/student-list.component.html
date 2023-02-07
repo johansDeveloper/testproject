@@ -1,0 +1,124 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h1 style="text-align: center">Students</h1><br>
+    <div class="row" [hidden]="!deleteMessage">
+      <div class="col-sm-4"></div>
+      <div class="col-sm-4">
+        <div class="alert alert-info alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <strong>Student Data Deleted</strong>
+        </div>
+      </div>
+      <div class="col-sm-4"></div>
+    </div>
+  </div>
+
+
+  <div class="panel-body">
+    <table class="table table-hover table-sm" datatable [dtOptions]="dtOptions"
+           [dtTrigger]="dtTrigger">
+      <thead class="thead-light">
+      <tr>
+        <th>Student Name</th>
+        <th>Group Number</th>
+        <th>Faculty</th>
+        <th>Scholarship</th>
+        <th>Date Of Enrollment</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let student of students">
+        <td>{{student.studentName}}</td>
+        <td>{{groups[student.groupId - 1].groupNumber}}</td>
+        <td>{{groups[student.groupId - 1].faculty}}</td>
+<!--        <td>{{student.scholarship}}</td>-->
+<!--        <td>{{student.dateOfEnrollment}}</td>-->
+        <td>{{1288323623006 | date:'medium'}}: Oct 29, 2010 9:10:23 AM</td>
+<!--        <td>{{student.dateOfEnrollment | date:'yyyy.MM.dd'}}</td>-->
+        <td>{{student.dateOfEnrollment}}</td>
+        <td>
+          <button (click)="deleteStudent(student.studentId)" class='btn btn-primary'><i
+            class="fa fa-futboll-0">Delete</i></button>&nbsp;
+          <button (click)="updateStudent(student.studentId)" class='btn btn-info'
+                  data-toggle="modal" data-target="#myModal">Update
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form [formGroup]="studentUpdateForm" #updstu (ngSubmit)="updateStu(updstu)">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title" style="text-align: center">Update Student</h4>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body" *ngFor="let student of studentList ">
+          <div [hidden]="isUpdated">
+            <input type="hidden" class="form-control" formControlName="studentId" [(ngModel)]="student.studentId">
+            <div class="form-group">
+              <label for="name">Student Name</label>
+              <input type="text" class="form-control" formControlName="studentName" [(ngModel)]="student.studentName">
+              <div class="alert alert-danger" *ngIf="(StudentName.touched) && (StudentName.invalid)"
+                   style="margin-top: 5px;">
+                <span *ngIf="StudentName.errors.required">Student Name is required</span>
+                <span *ngIf="StudentName.errors.minlength">Minimal length is 3 symbols</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="groupId">
+                <div style="color: red; float: left">*</div>
+                Group Number</label>
+              <select class="form-control" formControlName="groupId" data-toggle="tooltip"
+                      data-placement="right" title="Select Group Number">
+                <option value="1" [selected]="1 == student.groupId">B17-101</option>
+                <option value="2" [selected]="2 == student.groupId">B18-101</option>
+                <option value="3" [selected]="3 == student.groupId">B17-201</option>
+                <option value="4" [selected]="4 == student.groupId">B18-201</option>
+                <option value="5" [selected]="5 == student.groupId">S17-302</option>
+                <option value="6" [selected]="6 == student.groupId">S18-302</option>
+                <option value="7" [selected]="7 == student.groupId">B17-502</option>
+                <option value="8" [selected]="8 == student.groupId">B18-502</option>
+                <option value="9" [selected]="9 == student.groupId">B17-402</option>
+                <option value="10" [selected]="10 == student.groupId">B18-402</option>
+                <option value="11" [selected]="11 == student.groupId">B18-403</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="scholarship">Scholarship</label>
+              <select class="form-control" formControlName="scholarship" required>
+                <option value="usual" [selected]="'usual' == student.scholarship">Usual</option>
+                <option value="increased" [selected]="'increased' == student.scholarship">Increased</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="dateOfEnrollment">Date Of Enrollment</label>
+              <input type="text" class="form-control" formControlName="dateOfEnrollment"
+                     [(ngModel)]="student.dateOfEnrollment">
+            </div>
+          </div>
+          <div [hidden]="!isUpdated">
+            <h4>Student Detail Updated!</h4>
+          </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success" [hidden]="isUpdated"
+                  [disabled]="studentUpdateForm.pristine || studentUpdateForm.invalid">Update
+          </button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="changeIsUpdate()">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

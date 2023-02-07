@@ -1,0 +1,75 @@
+<h3>Create Student</h3>
+<div class="row">
+  <div class="col-sm-4"></div>
+  <div class="col-sm-4">
+    <div [hidden]="submitted" style="width: 400px;">
+      <form [formGroup]="studentSaveForm" #savestudent (ngSubmit)="saveStudent(saveStudent)">
+        <div class="form-group">
+          <label for="studentName">
+            <div style="color: red; float: left">*</div>
+            Student Name</label>
+          <input type="text" class="form-control" formControlName="studentName" data-toggle="tooltip"
+                 data-placement="right" title="Enter Student Name">
+          <div class="alert alert-danger" *ngIf="(StudentName.touched) && (StudentName.invalid)"
+               style="margin-top: 5px;">
+            <span *ngIf="StudentName.errors.required">Student Name is required</span>
+            <span *ngIf="StudentName.errors.minlength">Minimal length is 3 symbols</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="groupId">
+            <div style="color: red; float: left">*</div>
+            Group Number</label>
+          <select class="form-control" formControlName="groupId" data-toggle="tooltip"
+                  data-placement="right" title="Select Group Number">
+            <option value=1>B17-101</option>
+            <option value=2>B18-101</option>
+            <option value=3>B17-201</option>
+            <option value=4>B18-201</option>
+            <option value=5>S17-302</option>
+            <option value=6>S18-302</option>
+            <option value=7>B17-502</option>
+            <option value=8>B18-502</option>
+            <option value=9>B17-402</option>
+            <option value=10>B18-402</option>
+            <option value=11>B18-403</option>
+          </select>
+          <div class="alert alert-danger" *ngIf="(Group.touched) && (Group.invalid)"
+               style="margin-top: 5px;">
+            <span *ngIf="Group.errors.required">Group Number is required</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="scholarship">Scholarship</label>
+          <select class="form-control" formControlName="scholarship" data-toggle="tooltip"
+                  data-placement="right" title="Select Scholarship">
+            <option value="usual">Usual</option>
+            <option value="increased">Increased</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="dateOfEnrollment">Date Of Enrollment (dd/mm/yyyy)</label>
+          <input type="text" class="form-control" formControlName="dateOfEnrollment"
+                 data-toggle="tooltip" data-placement="right" title="Enter Date Of Enrollment">
+        </div>
+        <button type="submit" class="btn btn-success"
+                [disabled]="studentSaveForm.pristine || studentSaveForm.invalid">Submit
+        </button>
+      </form>
+    </div>
+  </div>
+  <div class="col-sm-4"></div>
+</div>
+<div class="row">
+  <div class="col-sm-4"></div>
+  <div class="col-sm-4">
+    <div [hidden]="!submitted">
+      <h4>Student Added SuccessFully!</h4>
+      <button (click)="addStudentForm()" class='btn btn-primary'>Add More Student</button>
+    </div>
+  </div>
+  <div class="col-sm-4"></div>
+</div>
